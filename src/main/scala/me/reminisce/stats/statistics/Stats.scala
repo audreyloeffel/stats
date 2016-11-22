@@ -1,11 +1,9 @@
 package me.reminisce.stats.statistics
 
 
-import reactivemongo.bson._
-import me.reminisce.stats.server.GameEntities._
-import me.reminisce.stats.server.GameEntities.QuestionKind.QuestionKind
-import me.reminisce.stats.statistics.Utils._
 import com.github.nscala_time.time.Imports._
+import me.reminisce.stats.statistics.Utils._
+import reactivemongo.bson._
 
 object Stats {
 
@@ -15,12 +13,12 @@ object Stats {
     date: DateTime = DateTime.now,
     amount: Int,
     win: Int,
-    lost: Int,  
-    tie: Int,  
+    loss: Int,
+    tie: Int,
     rivals: Set[Rival],
     questionsByType: QuestionsByType
     )
-  
+
   case class QuestionStats(
     amount: Int,
     correct: Double,
@@ -40,10 +38,10 @@ object Stats {
     order: QuestionStats
     )
 
-  implicit val questionStatsHandler: BSONHandler[BSONDocument, QuestionStats] = Macros.handler[QuestionStats]  
-  implicit val questionsByTypeHandler: BSONHandler[BSONDocument, QuestionsByType] = Macros.handler[QuestionsByType]  
-  implicit val rivalHandler: BSONHandler[BSONDocument, Rival] = Macros.handler[Rival]  
-   
+  implicit val questionStatsHandler: BSONHandler[BSONDocument, QuestionStats] = Macros.handler[QuestionStats]
+  implicit val questionsByTypeHandler: BSONHandler[BSONDocument, QuestionsByType] = Macros.handler[QuestionsByType]
+  implicit val rivalHandler: BSONHandler[BSONDocument, Rival] = Macros.handler[Rival]
+
 
   implicit object StatsReader extends BSONDocumentReader[StatsEntities]{
     def read(doc: BSONDocument): StatsEntities = {
@@ -52,27 +50,27 @@ object Stats {
       val date = doc.getAs[DateTime]("date").get
       val amount = doc.getAs[Int]("amount").get
       val win = doc.getAs[Int]("win").get
-      val lost = doc.getAs[Int]("lost").get
+      val loss = doc.getAs[Int]("loss").get
       val tie = doc.getAs[Int]("tie").get
       val rivals = doc.getAs[Set[Rival]]("rivals").get
       val questionsByType = doc.getAs[QuestionsByType]("questionsByType").get
-      StatsEntities(id, userId, date, amount, win, lost, tie, rivals, questionsByType)
+      StatsEntities(id, userId, date, amount, win, loss, tie, rivals, questionsByType)
     }
   }
 
-  implicit object StatsWriter extends BSONDocumentWriter[StatsEntities]{
+  implicit object StatsWriter extends BSONDocumentWriter[StatsEntities] {
     def write(stats: StatsEntities): BSONDocument = {
-      val StatsEntities(_id, userId, date, amount, win, lost, tie, rivals, questionsByType) = stats
+      val StatsEntities(_, userId, date, amount, win, loss, tie, rivals, questionsByType) = stats
       BSONDocument(
         "userId" -> userId,
         "date" -> date,
         "amount" -> amount,
-        "win"-> win,
-        "lost" -> lost,
+        "win" -> win,
+        "loss" -> loss,
         "tie" -> tie,
         "rivals" -> rivals,
         "questionsByType" -> questionsByType
-        )
+      )
     }
   }
 }

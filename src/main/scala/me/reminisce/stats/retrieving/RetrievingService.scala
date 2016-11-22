@@ -6,7 +6,8 @@ import me.reminisce.stats.model.DatabaseCollection
 import me.reminisce.stats.model.Messages._
 import me.reminisce.stats.model.RetrievingMessages._
 import me.reminisce.stats.retrieving.RetrievingService._
-import me.reminisce.stats.statistics.Stats._
+import me.reminisce.stats.statistics.Responses._
+import me.reminisce.stats.statistics.Stats.StatsEntities
 import reactivemongo.api.DefaultDB
 import reactivemongo.api.collections.bson._
 import reactivemongo.bson.{BSONDateTime, BSONDocument}
@@ -75,7 +76,7 @@ class RetrievingService(database: DefaultDB) extends Actor with ActorLogging {
           if (stats.isEmpty) {
             client ! UserNotFound(s"Statistics not found for $userId")
           } else {
-            client ! StatsRetrieved(stats)
+            client ! StatsRetrieved(stats.map(responseFromStats))
           }
         case Failure(error) =>
           sender ! Abort
