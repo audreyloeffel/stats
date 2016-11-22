@@ -46,6 +46,21 @@ libraryDependencies ++= {
 
 Defaults.itSettings
 
+lazy val `stats` = project.in(file(".")).
+  enablePlugins(BuildInfoPlugin).
+  settings(
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
+    buildInfoPackage := "me.reminisce.stats.server"
+  )
+
+buildInfoOptions += BuildInfoOption.BuildTime
+buildInfoOptions += BuildInfoOption.ToJson
+
+buildInfoKeys ++= Seq[BuildInfoKey](
+  BuildInfoKey.action("commitHash") {
+    Process("git rev-parse HEAD").lines.head
+  }
+)
 
 resolvers ++= Seq("spray" at "http://repo.spray.io/")
 
