@@ -2,6 +2,7 @@ FROM reminisceme/scala-base:latest
 
 ENV REMINISCEME_FOLDER /home/stats_user/reminisce.me
 ENV MONGODB_HOST mongo
+ENV STATS_HOST 0.0.0.0
 
 RUN groupadd -r stats_group && useradd -r -g stats_group stats_user
 

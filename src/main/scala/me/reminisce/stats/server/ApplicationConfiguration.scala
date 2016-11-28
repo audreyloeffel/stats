@@ -5,12 +5,10 @@ import scala.util.Properties._
 
 object ApplicationConfiguration {
 
-  val hostName = "localhost"
-  
-	val dbName = "reminisce_stats"
+  val serverPort = envOrElse("STATS_PORT", "7777").toInt
+  val hostName = envOrElse("STATS_HOST", "localhost")
 
-  val serverPort = 7777
   val mongoHost = envOrElse("MONGODB_HOST", hostName)
-  val mongodbName = envOrElse("REMINISCE_ STATS_MONGO_DB", dbName)
+  val mongodbName = envOrElse("REMINISCE_STATS_MONGO_DB", "reminisce_stats")
 
 }
