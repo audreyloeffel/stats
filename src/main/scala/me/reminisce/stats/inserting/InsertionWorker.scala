@@ -20,7 +20,7 @@ class InsertionWorker(database: DefaultDB) extends Actor with ActorLogging {
   def receive : Receive = {
     case InsertEntity(entity: Game) => insertInDb(entity)
     case o =>
-      log.info(s"Unexpected message received in InsertionWorker: $o")
+      log.info(s"Unexpected message ($o) received in InsertionWorker")
   }
 
   /*

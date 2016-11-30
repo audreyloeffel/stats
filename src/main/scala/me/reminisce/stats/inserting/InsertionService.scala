@@ -14,16 +14,14 @@ object InsertionService {
 
 class InsertionService(database: DefaultDB) extends Actor with ActorLogging {
 
-  def receive: Receive = {
+  def receive: Receive = waitingForMessages(null)
+
+  def waitingForMessages(client: ActorRef): Receive = {
     case msg @ InsertEntity(game) => 
       log.info(s"Received game: $game")
       val worker = context.actorOf(InsertionWorker.props(database))
       worker ! msg
       context.become(waitingForMessages(sender))
-    case any => log.error(s"Unexpected message received in insertion service: $any")
-    }
-
-  def waitingForMessages(client: ActorRef): Receive = {
     case Inserted(ids) => 
       ids.foreach{ id =>
         client ! InsertionDone()
@@ -36,7 +34,5 @@ class InsertionService(database: DefaultDB) extends Actor with ActorLogging {
     case Abort => 
       client ! InsertionAbort()
       sender ! PoisonPill
-    case any =>
-      log.error(s"Unexpected message received in insertion service: $any")
   }
 }
