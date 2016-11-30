@@ -109,7 +109,13 @@ class StatsServerActorSpec extends DatabaseTester("StatsServerActorSpec") {
 
           json match {
             case JObject(a) =>
-              assert(a.head._1 == "stats")
+              a match {
+                case (s, _) :: tail =>
+                  assert(s == "stats")
+                case _ =>
+                  fail("Unexpected response")
+              }
+              
             case _ =>
               fail("Response isn't a Stats object")
           }
