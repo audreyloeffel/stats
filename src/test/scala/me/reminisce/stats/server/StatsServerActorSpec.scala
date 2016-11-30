@@ -138,8 +138,12 @@ class StatsServerActorSpec extends DatabaseTester("StatsServerActorSpec") {
           val json = parse(httpResponse.entity.data.asString)
           json match {
             case JObject(a) =>
-              assert(a.head._1 == "status")
-              assert(a.head._2 == JString("Aborted"))
+              a match {
+                case (x, y) :: Nil =>
+                  assert((x, y) == ("status", JString("Aborted")))
+                case _ =>
+                  fail("Response doesn't match the exected 'aborted' message")
+              }
             case _ => fail("Fail to insert")
           }
         case None =>
