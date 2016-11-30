@@ -35,8 +35,6 @@ object GameEntities {
                   answered: Boolean,
                   disabled: Boolean) extends RestMessage
 
-  case class Score(player: Int, score: Int)
-
   object QuestionKind extends Enumeration {
     type QuestionKind = Value
     val MultipleChoice = Value("MultipleChoice")
@@ -55,59 +53,10 @@ object GameEntities {
       case BSONString(s) => QuestionKind.withName(s)
     }
   }
-  implicit object GameQuestionWriter extends BSONDocumentWriter[GameQuestion] {
-    def write(question: GameQuestion): BSONDocument =
-      BSONDocument(
-        "kind" -> question.kind,
-        "type" -> question.`type`,
-        "correct" -> question.correct
-      )
-  }
-  implicit object GameQuestionReader extends BSONDocumentReader[GameQuestion] {
-    def read(doc: BSONDocument): GameQuestion =
-      GameQuestion(QuestionKind.withName(doc.getAs[String]("kind").get), doc.getAs[String]("type").get, doc.getAs[Boolean]("correct"))
-  }
 
-  implicit val scoreHandler: BSONHandler[BSONDocument, Score] = Macros.handler[Score]
-  implicit val tileHandler: BSONHandler[BSONDocument, Tile] = Macros.handler[Tile]
-  implicit val boardHandler: BSONHandler[BSONDocument, Board] = Macros.handler[Board]
-
-  // Change the format of the Game that is stored in the DB
-  implicit object GameWriter extends BSONDocumentWriter[Game] {
-    def write(game: Game): BSONDocument = {
-      val Game(id: String, player1: String, player2: String, player1Board: Board, player2Board: Board, status: String,
-      player1Scores: Int, player2Scores: Int, wonBy: Int, creationTime: Long) = game
-
-      val won = if (wonBy == 1) player1 else player2
-      BSONDocument(
-        "_id" -> id,
-        "player1" -> player1,
-        "player2" -> player2,
-        s"${player1}_Board" -> player1Board,
-        s"${player2}_Board" -> player2Board,
-        "status" -> status,
-        s"${player1}_Scores" -> player1Scores,
-        s"${player2}_Scores" -> player2Scores,
-        "wonBy" -> won,
-        "creationTime" -> creationTime
-      )
-    }
-  }
-
-  implicit object GameReader extends BSONDocumentReader[Game] {
-    def read(doc: BSONDocument): Game = {
-      val id = doc.getAs[String]("_id").get
-      val player1 = doc.getAs[String]("player1").get
-      val player2 = doc.getAs[String]("player2").get
-      val player1Board = doc.getAs[Board](s"${player1}_Board").get
-      val player2Board = doc.getAs[Board](s"${player2}_Board").get
-      val status = doc.getAs[String]("status").get
-      val player1Scores = doc.getAs[Int](s"${player1}_Scores").get
-      val player2Scores = doc.getAs[Int](s"${player2}_Scores").get
-      val wonBy = if (doc.getAs[String]("wonBy").get == player1) 1 else 2
-      val creationTime = doc.getAs[Long]("creationTime").get
-      Game(id, player1, player2, player1Board, player2Board, status, player1Scores, player2Scores, wonBy, creationTime)
-    }
-  }
-
+  implicit val gameQuestionHandler = Macros.handler[GameQuestion]
+  implicit val tileHandler = Macros.handler[Tile]
+  implicit val boardHandler = Macros.handler[Board]
+  implicit val gameHandler = Macros.handler[Game]
+  
 }

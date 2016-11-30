@@ -6,27 +6,7 @@ import reactivemongo.bson._
 
 
 class GameBSONSerializersTest extends FunSuite {
-  // ***** SCORE *****
-  val docScore = BSONDocument(
-    "player" -> 1,
-    "score" -> 3456
-  )
-  val score = Score(1, 3456)
-
-  test("ScoreWrite") {
-    val bson = BSON.writeDocument(score)
-    assert(bson == docScore)
-  }
-  test("ScoreRead") {
-    val result = docScore.as[Score]
-    assert(result == score)
-  }
-  test("ScoreWriteRead") {
-    val bson = BSON.writeDocument(score)
-    val result = bson.as[Score]
-    assert(score == result)
-  }
-
+  
   // ***** GAMEQUESTION *****
   val docGameQuestion = BSONDocument(
     "type" -> "GeoWhatCoordinatesWereYouAt",
