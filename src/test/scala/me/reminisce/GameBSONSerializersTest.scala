@@ -11,24 +11,26 @@ class GameBSONSerializersTest extends FunSuite {
   val docGameQuestion = BSONDocument(
     "type" -> "GeoWhatCoordinatesWereYouAt",
     "kind" -> QuestionKind.Geolocation,
-    "correct" -> true
+    "correct" -> true,
+    "timeSpent" -> 5000
   )
-  val gameQuestion = GameQuestion(QuestionKind.Geolocation, "GeoWhatCoordinatesWereYouAt", Some(true))
+  val gameQuestion = GameQuestion(QuestionKind.Geolocation, "GeoWhatCoordinatesWereYouAt", Some(true), Some(5000))
 
-  test("GeolocationQuestionWrite") {
+  test("QuestionWrite") {
     val bson = BSON.writeDocument(docGameQuestion)
     assert(bson.getAs[Boolean]("correct") == docGameQuestion.getAs[Boolean]("correct"))
     assert(bson.getAs[String]("type") == docGameQuestion.getAs[String]("type"))
     assert(bson.getAs[String]("kind") == docGameQuestion.getAs[String]("kind"))
+    assert(bson.getAs[Long]("timeSpent") == docGameQuestion.getAs[Long]("timeSpent"))
   }
 
-  test("GeolocationQuestionRead") {
+  test("QuestionRead") {
 
     val result = docGameQuestion.as[GameQuestion]
     assert(result == gameQuestion)
   }
 
-  test("GeolocationQuestionWriteRead") {
+  test("QuestionWriteRead") {
 
     val bson = BSON.writeDocument(gameQuestion)
     val result = bson.as[GameQuestion]

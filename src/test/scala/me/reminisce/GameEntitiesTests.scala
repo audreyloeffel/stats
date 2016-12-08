@@ -51,6 +51,7 @@ class GameEntitiesTests extends FunSuite {
     assert(expected.kind == actual.kind)
     assert(expected.`type` == actual.`type`)
     assert(expected.correct == actual.correct)
+    assert(expected.timeSpent == actual.timeSpent)
   }
 
 
@@ -87,17 +88,20 @@ class GameEntitiesTests extends FunSuite {
         "question1": {
               "type": "TLWhenDidYouShareThisPost",
               "kind": "Timeline",
-              "correct": true
+              "correct": true,
+              "timeSpent": 4000
             },
         "question2": {
               "type": "TLWhenDidYouShareThisPost",
               "kind": "Timeline",
-              "correct": true
+              "correct": true,
+              "timeSpent": 4000
             },
         "question3": {
               "type": "TLWhenDidYouShareThisPost",
               "kind": "Timeline",
-              "correct": true
+              "correct": true,
+              "timeSpent": 4000
             },
         "score": 0,
         "answered": false,
@@ -105,7 +109,7 @@ class GameEntitiesTests extends FunSuite {
       }"""
 
     val parsedTile = parse(tile).extract[Tile]
-    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true))
+    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true), Some(4000))
     val expectedTile = Tile("Timeline", "87c565b56f7fc92ff8617c2b", question, question, question, 0, answered = false, disabled = false)
 
     assertEquals(expectedTile, parsedTile)
@@ -124,17 +128,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -146,17 +153,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -168,17 +178,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -191,17 +204,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -212,7 +228,7 @@ class GameEntitiesTests extends FunSuite {
         }"""
 
     val actualBoard = parse(board).extract[Board]
-    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true))
+    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true), Some(4000))
     val expectedBoard = Board("MmYXQ5EKSgdjzP3uJ",
       List(Tile("MultipleChoice", "79c2378123949e4386631412", question, question, question, 0, answered = false, disabled = false),
         Tile("Order", "9119c06edf2e473772ea37a2", question, question, question, 0, answered = false, disabled = false),
@@ -241,17 +257,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -263,17 +282,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -285,17 +307,20 @@ class GameEntitiesTests extends FunSuite {
               "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "score": 0,
               "answered": false,
@@ -314,17 +339,20 @@ class GameEntitiesTests extends FunSuite {
                "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
                "score": 0,
                "answered": false,
@@ -336,17 +364,20 @@ class GameEntitiesTests extends FunSuite {
                "question1": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question2": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
               "question3": {
                     "type": "TLWhenDidYouShareThisPost",
                     "kind": "Timeline",
-                    "correct": true
+                    "correct": true,
+                    "timeSpent": 4000
                   },
                "score": 0,
                "answered": false,
@@ -362,7 +393,7 @@ class GameEntitiesTests extends FunSuite {
          "creationTime": 1456062881638
         }"""
 
-    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true))
+    val question = GameQuestion(QuestionKind.Timeline, "TLWhenDidYouShareThisPost", Some(true), Some(4000))
     val expectedGame = Game("qS3MNajyD4qd2RYpy", "MmYXQ5EKSgdjzP3uJ", "wucQxKHvs5W9Ao9y9",
       Board("MmYXQ5EKSgdjzP3uJ", List(Tile("Order", "9119c06edf2e473772ea37a2", question, question, question, 0, answered = false, disabled = false),
         Tile("Order", "b7893b57c6ba4350fb3d977a", question, question, question, 0, answered = false, disabled = false),

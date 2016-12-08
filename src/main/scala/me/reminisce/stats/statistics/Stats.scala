@@ -23,7 +23,8 @@ object Stats {
     amount: Int,
     correct: Double,
     wrong: Double,
-    avoid: Int
+    avoid: Int,
+    timeSpent: Long
     )
 
   case class Rival(

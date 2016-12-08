@@ -107,6 +107,7 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
   }
 
   def aggregate(games: List[Game], userId: String): StatsEntities = {
+
     val (win, loss, tie, amount): (Int, Int, Int, Int) = games.foldLeft[(Int, Int, Int, Int)]((0, 0, 0, 0)) {
       case ((w, l, t, a), Game(_, player1, _, _, _, _, player1Score, player2Score, _, _)) =>
         val (score, rival) = if (player1 == userId) (player1Score, player2Score) else (player2Score, player1Score)
@@ -120,6 +121,7 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
           }
         }
     }
+   
     val rivalsList: List[String] = games.foldLeft[List[String]](List()) {
       case (rList, Game(_, player1, player2, _, _, _, _, _, _, _)) =>
         if (player1 == userId) player2 :: rList else player1 :: rList
@@ -163,22 +165,24 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
     }
 
     val questionsGroupedByKind: Map[QuestionKind, List[(Boolean, Double, GameQuestion)]] = allQuestionsPairedWithScore.groupBy { case (a, s, q) => q.kind }
-
-    val scoringForEachKind = questionsGroupedByKind.map(kind => (kind._1, kind._2.foldLeft[(Int, Double, Double, Int)]((0, 0, 0, 0)) {
-      case ((a, c, w, av), (answer, score, question)) =>
-        if (answer) {
-          (a + 1, c + score, w + (1 - score), av)
+    
+    val scoringForEachKind = questionsGroupedByKind.map(kind => (kind._1, kind._2.foldLeft[(Int, Double, Double, Int, Long)]((0, 0, 0, 0, 0)) {
+      case ((a, c, w, av, ts), (answer, score, question)) => {
+        val addTime = question.timeSpent.getOrElse(0)
+        if (answer) {          
+          (a + 1, c + score, w + (1 - score), av, ts + addTime)
         } else {
-          (a, c, w, av + 1)
+          (a, c, w, av + 1, ts + addTime)
         }
+      }
     }
-      )).map { case (k, (amount: Int, correct: Double, wrong: Double, avoid: Int)) => (k, QuestionStats(amount, correct, wrong, avoid)) }
-
+      )).map { case (k, (amount: Int, correct: Double, wrong: Double, avoid: Int, timeSpent: Long)) => (k, QuestionStats(amount, correct, wrong, avoid, timeSpent)) }
+    
     val questionsByType = QuestionsByType(
-      scoringForEachKind.getOrElse(QuestionKind.MultipleChoice, QuestionStats(0, 0, 0, 0)),
-      scoringForEachKind.getOrElse(QuestionKind.Timeline, QuestionStats(0, 0, 0, 0)),
-      scoringForEachKind.getOrElse(QuestionKind.Geolocation, QuestionStats(0, 0, 0, 0)),
-      scoringForEachKind.getOrElse(QuestionKind.Order, QuestionStats(0, 0, 0, 0))
+      scoringForEachKind.getOrElse(QuestionKind.MultipleChoice, QuestionStats(0, 0, 0, 0, 0)),
+      scoringForEachKind.getOrElse(QuestionKind.Timeline, QuestionStats(0, 0, 0, 0, 0)),
+      scoringForEachKind.getOrElse(QuestionKind.Geolocation, QuestionStats(0, 0, 0, 0, 0)),
+      scoringForEachKind.getOrElse(QuestionKind.Order, QuestionStats(0, 0, 0, 0, 0))
     )
 
     val id = BSONObjectID.generate

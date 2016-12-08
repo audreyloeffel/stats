@@ -15,17 +15,20 @@ object JsonEntity {
         "question1": {
           "type": "GeoWhatCoordinatesWereYouAt",
           "kind": "Geolocation",
-          "correct": false
+          "correct": false,
+          "timeSpent" : 4000
         },
         "question2": {
           "type": "TLWhenDidYouShareThisPost",
           "kind": "Timeline",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "TLWhenDidYouShareThisPost",
           "kind": "Timeline",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 0,
         "answered": true,
@@ -56,17 +59,20 @@ object JsonEntity {
         "question1": {
           "type": "TLWhenDidYouLikeThisPage",
           "kind": "Timeline",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "TLWhenDidYouShareThisPost",
           "kind": "Timeline",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "TLWhenDidYouLikeThisPage",
           "kind": "Timeline",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 1,
         "answered": true,
@@ -97,17 +103,20 @@ object JsonEntity {
         "question1": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "MCWhoMadeThisCommentOnYourPost",
           "kind": "MultipleChoice",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "MCWhoMadeThisCommentOnYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 2,
         "answered": true,
@@ -138,17 +147,20 @@ object JsonEntity {
         "question1": {
           "type": "GeoWhatCoordinatesWereYouAt",
           "kind": "Geolocation",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "GeoWhatCoordinatesWereYouAt",
           "kind": "Geolocation",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "GeoWhatCoordinatesWereYouAt",
           "kind": "Geolocation",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 1,
         "answered": true,
@@ -204,17 +216,20 @@ object JsonEntity {
         "question1": {
           "type": "ORDPageLikeTime",
           "kind": "Order",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "ORDPageLikeTime",
           "kind": "Order",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "ORDPageLikes",
           "kind": "Order",
-          "correct": true
+          "correct": true,
+          "timeSpent": 4000
         },
         "score": 3,
         "answered": true,
@@ -245,17 +260,20 @@ object JsonEntity {
         "question1": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 0,
         "answered": true,
@@ -362,17 +380,20 @@ object JsonEntity {
         "question1": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question2": {
           "type": "MCWhoLikedYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "question3": {
           "type": "MCWhoMadeThisCommentOnYourPost",
           "kind": "MultipleChoice",
-          "correct": false
+          "correct": false,
+          "timeSpent": 4000
         },
         "score": 0,
         "answered": true,
