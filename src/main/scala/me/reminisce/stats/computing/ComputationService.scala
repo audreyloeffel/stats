@@ -39,7 +39,6 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
   }
 
   def compute(userId: String): Unit = {
-
     val userScore = s"${userId}_Scores"
     val queryGame = BSONDocument(
       "status" -> "ended",
@@ -59,7 +58,6 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
   }
 
   def insertOrUpdate(userId: String, stats: StatsEntities): Unit = {
-
     val now: DateTime = DateTime.now
     val midnightToday = new DateTime(now.getYear, now.getMonthOfYear, now.getDayOfMonth, 0, 0, 0)
     val queryStats = BSONDocument(
@@ -107,7 +105,6 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
   }
 
   def aggregate(games: List[Game], userId: String): StatsEntities = {
-
     val (win, loss, tie, amount): (Int, Int, Int, Int) = games.foldLeft[(Int, Int, Int, Int)]((0, 0, 0, 0)) {
       case ((w, l, t, a), Game(_, player1, _, _, _, _, player1Score, player2Score, _, _)) =>
         val (score, rival) = if (player1 == userId) (player1Score, player2Score) else (player2Score, player1Score)
@@ -120,8 +117,7 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
             (w, l, t + 1, a + 1)
           }
         }
-    }
-   
+    }   
     val rivalsList: List[String] = games.foldLeft[List[String]](List()) {
       case (rList, Game(_, player1, player2, _, _, _, _, _, _, _)) =>
         if (player1 == userId) player2 :: rList else player1 :: rList
@@ -166,17 +162,19 @@ class ComputationService(database: DefaultDB) extends Actor with ActorLogging {
 
     val questionsGroupedByKind: Map[QuestionKind, List[(Boolean, Double, GameQuestion)]] = allQuestionsPairedWithScore.groupBy { case (a, s, q) => q.kind }
     
-    val scoringForEachKind = questionsGroupedByKind.map(kind => (kind._1, kind._2.foldLeft[(Int, Double, Double, Int, Long)]((0, 0, 0, 0, 0)) {
-      case ((a, c, w, av, ts), (answer, score, question)) => {
-        val addTime = question.timeSpent.getOrElse(0)
-        if (answer) {          
-          (a + 1, c + score, w + (1 - score), av, ts + addTime)
-        } else {
-          (a, c, w, av + 1, ts + addTime)
-        }
-      }
-    }
-      )).map { case (k, (amount: Int, correct: Double, wrong: Double, avoid: Int, timeSpent: Long)) => (k, QuestionStats(amount, correct, wrong, avoid, timeSpent)) }
+    val scoringForEachKind = questionsGroupedByKind.map {
+      case (kind, questionsList) => 
+        (kind, questionsList.foldLeft[(Int, Double, Double, Int, Long)]((0, 0, 0, 0, 0)) {
+          case ((a, c, w, av, ts), (answer, score, question)) => {
+            val addTime = question.timeSpent.getOrElse(0)
+            if (answer) {          
+              (a + 1, c + score, w + (1 - score), av, ts + addTime)
+            } else {
+              (a, c, w, av + 1, ts + addTime)
+            }
+          }
+        })
+      }.map { case (k, (amount: Int, correct: Double, wrong: Double, avoid: Int, timeSpent: Long)) => (k, QuestionStats(amount, correct, wrong, avoid, timeSpent)) }
     
     val questionsByType = QuestionsByType(
       scoringForEachKind.getOrElse(QuestionKind.MultipleChoice, QuestionStats(0, 0, 0, 0, 0)),
